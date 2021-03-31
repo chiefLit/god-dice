@@ -1,0 +1,42 @@
+@maxwidth: 500px;
+.navbar {
+  width: 100%;
+  position: fixed;
+  z-index: 2;
+}
+.addContainer {
+  position: fixed;
+  width: 100%;
+  top: 45px;
+  z-index: 2;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  overflow: hidden;
+}
+.coverHeader {
+  height: 100px;
+}
+.coverFooter {
+  height: 50px;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, 0);
+  max-width: @maxwidth;
+  height: 47px;
+  z-index: 2;
+  :global {
+    .am-flexbox-item {
+      margin-left: 0;
+      a{
+        border-radius: 0;
+        &::before {
+          border: 0 !important;
+        }
+      }
+    }
+  }
+}
