@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './index.less';
+import styles from './index.module.less';
 import {
   NavBar,
   List,
@@ -49,10 +49,11 @@ export default () => {
   };
 
   // 删除确认
-  const onOk = () => {
+  const deleteItems = () => {
     const data = dataList.filter((item) => !selectedValues.includes(item));
     setDataList(data);
     setStatus('display');
+    Toast.success('删除成功', 2, () => { }, false)
   };
 
   // 选择删除项
@@ -74,12 +75,13 @@ export default () => {
         onLeftClick={() => history.goBack()}
         rightContent={[
           <a
+            key={'link-edit'}
             style={{ color: '#111' }}
             onClick={() =>
               setStatus(status === 'editable' ? 'display' : 'editable')
             }
           >
-            {status === 'editable' ? '取消编辑' : '编辑'}
+            {status === 'editable' ? '完成操作' : '批量操作'}
           </a>,
         ]}
       >
@@ -93,7 +95,6 @@ export default () => {
         onCancel={addItem}
         value={value}
         onChange={(value: string) => setValue(value)}
-        onSubmit={(value: string) => setValue(value)}
       />
       <div className={styles.coverHeader}></div>
       <List>
@@ -111,19 +112,13 @@ export default () => {
             );
           }
         })}
-        {/* <InputItem placeholder="请输入" /> */}
       </List>
       <div className={styles.coverFooter} />
       <Flex className={styles.footer}>
-        {/* {status === 'display' && (
-          <Flex.Item>
-            <Button onClick={() => history.goBack()}>完成</Button>
-          </Flex.Item>
-        )} */}
         {status === 'editable' && (
           <Flex.Item>
-            <Button type="primary" onClick={() => onOk()}>
-              确认删除
+            <Button type="primary" onClick={() => deleteItems()}>
+              批量删除
             </Button>
           </Flex.Item>
         )}

@@ -7,9 +7,7 @@ import { useHistory } from "react-router";
 export default () => {
   const [dataList, setDataList] = React.useState([]);
   const [start, setStart] = React.useState<boolean>(false);
-  const [visible, setVisiable] = React.useState(false);
   const timerRef: React.MutableRefObject<any> = React.useRef();
-  const [luckyDog, setLuckyDog] = React.useState('');
   const history = useHistory()
 
   React.useEffect(() => {
@@ -35,9 +33,10 @@ export default () => {
     if (start) {
       (window as any).TagCanvas.SetSpeed('myCanvas', [10, 1]);
       const index = Math.floor(Math.random() * dataList.length);
-      setLuckyDog(dataList[index]);
       timerRef.current = setTimeout(() => {
-        setVisiable(true);
+        Modal.alert('恭喜！！！', dataList[index], [
+          { text: '确定' }
+        ])
         setStart(false);
       }, 2000);
     } else {
@@ -47,7 +46,7 @@ export default () => {
 
   return (
     <div className={styles.wrapper}>
-      <NavBar style={{background: '#000'}} mode='dark'>GOD DICE</NavBar>
+      <NavBar style={{ background: '#000' }} mode='dark'>GOD DICE</NavBar>
 
       <div id="myCanvasContainer" className={styles.canvasContainer}>
         <canvas
@@ -68,38 +67,27 @@ export default () => {
       <div className={styles.coverFooter} />
       <Flex className={styles.footer}>
         <Flex.Item>
-          <Button onClick={() => history.push('/set')}>可选项</Button>
+          <Button
+            style={{
+              background: 'rgba(0, 0, 0, 0.251 )',
+              color: '#fff'
+            }}
+            onClick={() => history.push('/set')}
+          >可选项</Button>
         </Flex.Item>
         <Flex.Item>
           <Button
             type="primary"
-            onClick={() => {
-              if (dataList.length) {
-                setStart(true);
-              } else {
-                Toast.offline('请先配置');
-              }
+            style={{
+              background: 'rgba(0, 0, 0, 0.251 )',
+              color: '#fff'
             }}
-          >
-            开始
-          </Button>
+            onClick={() => {
+              dataList.length ? setStart(true) : Toast.offline('请先配置可选项', 2)
+            }}
+          >开始</Button>
         </Flex.Item>
       </Flex>
-
-      <Modal
-        visible={visible}
-        transparent
-        maskClosable={false}
-        title="恭喜 ！！！"
-        footer={[
-          {
-            text: 'Ok',
-            onPress: () => setVisiable(false),
-          },
-        ]}
-      >
-        {luckyDog}
-      </Modal>
     </div>
   );
 };
