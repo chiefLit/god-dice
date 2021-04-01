@@ -3,11 +3,13 @@ import Set from "./pages/set";
 
 export const routes = [
   {
-    path: '/home',
+    path: '/',
+    exact: true,
     component: Home
   },
   {
     path: '/set',
+    exact: true,
     component: Set
   }
 ]
